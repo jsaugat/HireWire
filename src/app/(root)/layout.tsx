@@ -1,4 +1,5 @@
 import { isUserAuthenticated } from '@/lib/actions/auth.action';
+import Image from 'next/image';
 import Link from 'next/link'
 import { redirect } from 'next/navigation';
 import React, { ReactNode } from 'react'
@@ -12,10 +13,17 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   return (
     <div className='root-layout'>
       <nav>
-        <Link href="/">
-          <h2 className='text-primary-100'>
+        <Link href="/" className='flex items-center gap-2'>
+          <Image
+            src="/hirewire.svg"
+            alt="HireWire Logo"
+            width={16}
+            height={16}
+            className='rounded-full'
+          />
+          <p className='text-lg text-primary-100 uppercase'>
             HireWire
-          </h2>
+          </p>
         </Link>
       </nav>
       {children}

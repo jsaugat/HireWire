@@ -23,25 +23,27 @@ async function Home() {
 
   return (
     <>
-      <section className="card-cta">
-        <div className="flex flex-col gap-6 max-w-lg">
-          <h2>Ace Your Interviews with AI-Driven Practice</h2>
-          <p className="text-lg">
-            Master Real Questions & Receive Instant Feedback
+      <section className="card-cta justify-center min-h-[80svh]">
+        <div className="flex flex-col gap-6 md:text-center">
+          <h2 className="text-4.5xl md:text-6xl lg:text-7xl">AI-Powered Mock Interviews<br />
+            <span className="inline-block text-zinc-400">That Talk Back</span>
+          </h2>
+          <p className="text-sm md:text-lg">
+            Practice Smarter: Master Real Questions & Receive Instant Feedback
           </p>
 
-          <Button asChild className="max-sm:w-full">
+          <Button asChild className="max-w-fit md:mx-auto">
             <Link href="/interview">Start an Interview</Link>
           </Button>
         </div>
 
-        <Image
+        {/* <Image
           src="/robot.png"
           alt="robo-dude"
           width={400}
           height={400}
           className="max-sm:hidden"
-        />
+        /> */}
       </section>
 
       <section className="flex flex-col gap-6 mt-8">

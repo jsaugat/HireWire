@@ -22,13 +22,14 @@
   --color-dark-200: #27282f;
   --color-dark-300: #242633;
 
+    /* My styles */
   --font-geist: "Geist", sans-serif;
-
   --bg-pattern: url("/pattern.png");
+  --text-4.5xl: 2.5rem;
 }
 
 :root {
-  --radius: 0rem;
+  --radius: 0.5rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -141,9 +142,9 @@
   body {
     @apply bg-background text-foreground;
   }
-  p {
-    @apply text-light-100;
-  }
+  /* p {
+    @apply ;
+  } */
   h2 {
     @apply text-3xl font-semibold;
   }
@@ -262,7 +263,7 @@
   }
 
   .root-layout {
-    @apply flex mx-auto max-w-7xl flex-col gap-12 my-12 px-16 max-sm:px-4 max-sm:my-8;
+    @apply flex mx-auto max-w-7xl flex-col gap-12 px-16 max-sm:px-4 max-sm:my-4 my-6;
   }
 
   .card-cta {

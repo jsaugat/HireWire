@@ -9,9 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ai-sdk/google": "^1.2.10",
     "@hookform/resolvers": "^5.0.0",
     "@radix-ui/react-slot": "^1.1.2",
     "@vapi-ai/web": "^2.2.5",
+    "ai": "^4.3.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "firebase": "^11.5.0",

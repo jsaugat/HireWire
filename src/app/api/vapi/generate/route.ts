@@ -8,6 +8,7 @@ export async function POST(request: Request) {
   const { type, role, level, techStack, amount, userId } = await request.json();
 
   try {
+    // generateText (from 'ai') is a function that generates text using the specified AI model (eg. Gemini)
     const { text: questions } = await generateText({
       model: google("gemini-2.0-flash-001"),
       prompt: `Prepare questions for a job interview.
@@ -29,7 +30,7 @@ export async function POST(request: Request) {
       role: role,
       type: type,
       level: level,
-      techstack: techStack.split(","),
+      techStack: techStack.split(","),
       questions: JSON.parse(questions),
       userId: userId,
       finalized: true,

@@ -218,19 +218,19 @@
     }
 
     .card-interviewer {
-      @apply flex-center flex-col gap-2 p-7 h-[400px] blue-gradient-dark rounded-lg border-2 border-primary-200/50 flex-1 sm:basis-1/2 w-full;
+      @apply flex-center flex-col gap-2 p-7 h-[400px] blue-gradient-dark rounded-lg border-2 border-white/30 flex-1 sm:basis-1/2 w-full;
     }
 
     .avatar {
-      @apply z-10 flex items-center justify-center blue-gradient  size-[120px] relative;
+      @apply z-10 flex items-center justify-center white-gradient  size-[120px] relative;
 
       .animate-speak {
-        @apply absolute inline-flex size-5/6 animate-ping  bg-primary-200 opacity-75;
+        @apply absolute inline-flex size-5/6 animate-ping  bg-white opacity-75;
       }
     }
 
     .card-border {
-      @apply border-gradient p-0.5 rounded-2xl flex-1 sm:basis-1/2 w-full h-[400px] max-md:hidden;
+      @apply border-gradient p-0.5 flex-1 sm:basis-1/2 w-full h-[400px] max-md:hidden;
     }
 
     .card-content {
@@ -295,6 +295,15 @@
   }
 }
 
+@layer utilities {
+  .bg-pattern-gradient {
+    background-image: url('/pattern.png'), url('/orange-gradient.webp');
+    background-repeat: no-repeat, no-repeat;
+    background-position: top, bottom;
+    background-size: auto, 100% 400px;
+  }
+}
+
 @utility dark-gradient {
   @apply bg-gradient-to-b from-[#1A1C20] to-[#08090D];
 }
@@ -307,12 +316,20 @@
   @apply bg-[url('/pattern.png')] bg-top bg-no-repeat;
 }
 
+@utility footer-gradient {
+  @apply bg-[url('/orange-gradient.webp')] bg-bottom bg-no-repeat bg-[length:100%_400px];
+}
+
 @utility blue-gradient-dark {
-  @apply bg-gradient-to-b from-[#171532] to-[#08090D];
+  @apply bg-gradient-to-b from-[#1b1a20] to-[#000000];
 }
 
 @utility blue-gradient {
   @apply bg-gradient-to-l from-[#FFFFFF] to-[#CAC5FE];
+}
+
+@utility white-gradient {
+  @apply bg-gradient-to-l from-[#FFFFFF] to-[#e8e8e8];
 }
 
 @utility flex-center {

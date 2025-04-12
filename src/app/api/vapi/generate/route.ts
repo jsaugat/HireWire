@@ -6,6 +6,7 @@ import { getRandomInterviewCover } from "@/lib/utils";
 
 export async function POST(request: Request) {
   const { type, role, level, techStack, amount, userId } = await request.json();
+  console.log({ userId, type, role, level, techStack, amount }, "Request body");
 
   try {
     // generateText (from 'ai') is a function that generates text using the specified AI model (eg. Gemini)
@@ -30,7 +31,8 @@ export async function POST(request: Request) {
       role: role,
       type: type,
       level: level,
-      techStack: techStack.split(","),
+      // techStack: typeof techStack === "string" ? techStack.split(",") : [],
+      techStack: ["JavaScript", "React", "Node.js"], // TODO: remove this line
       questions: JSON.parse(questions),
       userId: userId,
       finalized: true,

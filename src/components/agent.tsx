@@ -1,9 +1,11 @@
 "use client"
 
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button } from './ui/button';
 import { cn } from '@/lib/utils';
+import { vapi } from '@/lib/vapi.sdk';
+import { useRouter } from 'next/navigation';
 
 interface AgentProps {
   userName: string,
@@ -15,16 +17,89 @@ enum CallStatus {
   INACTIVE = 'INACTIVE',
   ACTIVE = 'ACTIVE',
   FINISHED = 'FINISHED',
+  CONNECTING = 'CONNECTING',
+}
+interface SavedMessage {
+  role: 'user' | 'assistant' | 'system';
+  content: string;
 }
 
-export default function Agent({ userName }: AgentProps) {
-  const callStatus = CallStatus.ACTIVE;
-  const isSpeaking = true;
-  const messages = [
-    "What's your name?",
-    "My name is Josh Saugat, nice to meet you!"
-  ]
-  const lastMessage = messages[messages.length - 1];
+export default function Agent({ userName, userId, type }: AgentProps) {
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [callStatus, setCallStatus] = useState<CallStatus>(CallStatus.INACTIVE);
+  const [messages, setMessages] = useState<SavedMessage[]>([]);
+  const router = useRouter();
+
+  useEffect(() => {
+    const onCallStart = () => setCallStatus(CallStatus.ACTIVE);
+    const onCallEnd = () => setCallStatus(CallStatus.FINISHED);
+    const onMessage = (message: Message) => {
+      if (message.type === "transcript" && message.transcriptType === "final") {
+        const newMessage = {
+          role: message.role,
+          content: message.transcript,
+        }
+
+        setMessages(prevMessages => [...prevMessages, newMessage]);
+      }
+    }
+
+    const onSpeechStart = () => setIsSpeaking(true);
+    const onSpeechEnd = () => setIsSpeaking(false);
+    const onError = (error: Error) => console.log("Error", error)
+
+    vapi.on('call-start', onCallStart);
+    vapi.on('call-end', onCallEnd);
+    vapi.on('message', onMessage);
+    vapi.on('speech-start', onSpeechStart);
+    vapi.on('speech-end', onSpeechEnd);
+    vapi.on('error', onError);
+
+    // Cleanup event listeners on component unmount
+    return () => {
+      vapi.off('call-start', onCallStart);
+      vapi.off('call-end', onCallEnd);
+      vapi.off('message', onMessage);
+      vapi.off('speech-start', onSpeechStart);
+      vapi.off('speech-end', onSpeechEnd);
+      vapi.off('error', onError);
+    }
+  }, [])
+
+  useEffect(() => {
+    if (callStatus === CallStatus.FINISHED) {
+      router.push('/');
+    }
+  }, [messages, callStatus, type, userId])
+
+  const handleCall = async () => {
+    console.log("Starting call...");
+    setCallStatus(CallStatus.CONNECTING);
+    //? START THE WORKFLOW CALL
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const call = await vapi.start(process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID!, {
+      variableValues: {
+        username: userName,
+        userid: userId,
+      }
+    })
+    // { 
+    //   "id": "bd2184a1-bdea-4d4f-9503-b09ca8b185e6", 
+    //   "orgId": "6da6841c-0fca-4604-8941-3d5d65f43a17", 
+    //   "createdAt": "2024-11-13T19:20:24.606Z", 
+    //   "updatedAt": "2024-11-13T19:20:24.606Z", 
+    //   "type": "webCall", 
+    //   ... 
+    // }
+
+  }
+  const handleDisconnect = () => {
+    setCallStatus(CallStatus.FINISHED);
+    vapi.stop();
+  }
+
+  const latestMessage = messages[messages.length - 1]?.content;
+  const isCallInactiveOrFinished = callStatus === CallStatus.INACTIVE || callStatus === CallStatus.FINISHED;
 
   return (
     <>
@@ -60,10 +135,10 @@ export default function Agent({ userName }: AgentProps) {
         <div className="transcript-border">
           <div className="transcript">
             <p
-              key={lastMessage}
+              key={latestMessage}
               className={cn('transition-opacity duration-500', 'animate-fadeIn')}
             >
-              {lastMessage}
+              {latestMessage}
             </p>
           </div>
         </div>
@@ -71,21 +146,24 @@ export default function Agent({ userName }: AgentProps) {
 
       <div className="w-full flex justify-center">
         {callStatus !== "ACTIVE" ? (
-          <Button variant={'constructive'} className='min-w-28'>
+          <Button
+            variant={'constructive'}
+            className='min-w-28'
+            onClick={handleCall}
+          >
+            {/*  */}
             <span
               className={cn("absolute animate-ping rounded-full opacity-75", callStatus !== 'CONNECTING' && 'hidden')}
             />
             <span>
-              {callStatus === "INACTIVE" || callStatus === "FINISHED" ? "Call" : "..."}
+              {isCallInactiveOrFinished ? "Call" : "..."}
             </span>
           </Button>
         ) : (
           <Button
             variant={'destructive'}
             className='min-w-28'
-            onClick={() => {
-              console.log("dfjdk")
-            }}
+            onClick={handleDisconnect}
           >
             End
           </Button>

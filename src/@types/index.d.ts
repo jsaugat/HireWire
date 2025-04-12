@@ -43,7 +43,7 @@ interface InterviewCardProps {
   userId?: string;
   role: string;
   type: string;
-  techstack: string[];
+  techStack: string[];
   createdAt?: string;
 }
 
@@ -90,7 +90,7 @@ interface InterviewFormProps {
   role: string;
   level: string;
   type: string;
-  techstack: string[];
+  techStack: string[];
   amount: number;
 }
 

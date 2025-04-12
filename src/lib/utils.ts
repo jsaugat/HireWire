@@ -9,3 +9,14 @@ export const getRandomInterviewCover = () => {
   const randomIndex = Math.floor(Math.random() * interviewCovers.length);
   return `/covers${interviewCovers[randomIndex]}`;
 };
+
+export function formatDate(date: Date | string): string {
+  if (!date) return ""
+
+  const d = typeof date === "string" ? new Date(date) : date
+  return d.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  })
+}

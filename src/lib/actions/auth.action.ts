@@ -76,7 +76,10 @@ export async function getAuthUser(): Promise<User | null> {
     // Utilise the decoded claims to get user data from FIRESTORE (not Firebase Auth because it only stores user credentials like email, UID and not the whole user data)
     const userRecord = await db.collection('users').doc(decodedClaims.uid).get();
     if (!userRecord) return null;
-    return { ...userRecord.data(), id: userRecord.id } as User;
+    return {
+      ...userRecord.data(),
+      id: userRecord.id
+    } as User;
   } catch (error) {
     console.error("Failed to get user:", error);
     return null;
@@ -86,4 +89,32 @@ export async function getAuthUser(): Promise<User | null> {
 export async function isUserAuthenticated() {
   const user = await getAuthUser();
   return !!user;
+}
+
+export async function getInterviewsByUserId(userId: string): Promise<Interview[] | null> {
+  const interviews = await db.collection('interviews')
+    .where('userId', '==', userId)
+    .orderBy('createdAt', 'desc')
+    .get();
+
+  return interviews.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  })) as Interview[];
+}
+
+export async function getLatestInterviews(params: GetLatestInterviewsParams)
+  : Promise<Interview[] | null> {
+  const { userId, limit = 20 } = params
+  const interviews = await db.collection('interviews')
+    .orderBy('createdAt', 'desc')
+    .where('finalized', '==', true)
+    .where('userId', '!=', userId)
+    .limit(limit)
+    .get();
+
+  return interviews.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  })) as Interview[];
 }

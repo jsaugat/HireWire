@@ -26,12 +26,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={"dark"}>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-pattern-gradient font-geist`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased pattern font-geist`}
       >
         {children}
-        {/* <div className="h-[180vh] footer-gradient">
+        <div className="h-[50vh] footer-gradient border-t p-16">
           <div className="">hello footer</div>
-        </div> */}
+        </div>
         <Toaster />
       </body>
     </html>

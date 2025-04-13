@@ -31,8 +31,7 @@ export async function POST(request: Request) {
       role: role,
       type: type,
       level: level,
-      // techStack: typeof techStack === "string" ? techStack.split(",") : [],
-      techStack: ["JavaScript", "React", "Node.js"], // TODO: remove this line
+      techStack: typeof techStack === "string" ? techStack.split(",") : [],
       questions: JSON.parse(questions),
       userId: userId,
       finalized: true,

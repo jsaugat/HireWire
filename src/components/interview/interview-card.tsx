@@ -6,10 +6,11 @@ import { Calendar, Star, Clock, CheckCircle, XCircle } from "lucide-react"
 import { formatDate } from "@/lib/utils"
 import type { InterviewCardProps } from "./base-interview-card"
 import { TechBadge } from "./tech-badge"
+import Link from "next/link"
 
 export const InterviewCard: FC<InterviewCardProps> = ({
+  id,
   userId,
-  interviewId,
   role,
   type,
   techStack = [],
@@ -20,15 +21,15 @@ export const InterviewCard: FC<InterviewCardProps> = ({
   const formattedDate = formatDate(createdAt)
 
   return (
-    <Card className="w-full max-w-md overflow-hidden bg-card border-border hover:border-primary/20 transition-all duration-300">
-      <div className="w-full h-2 bg-primary" />
+    <Card className="w-full max-w-md overflow-hidden bg-zinc-950 border-border hover:border-primary/20 transition-all duration-300">
+      {/* <div className="w-full h-2 bg-primary" /> */}
       <CardHeader className="relative pb-2">
-        <div className="absolute top-4 right-6">
+        {/* <div className="absolute top-4 right-6">
           <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center">
             <span className="text-xl font-bold text-primary-foreground">H</span>
           </div>
-        </div>
-        <Badge variant="outline" className="w-fit bg-primary/10 text-primary border-primary/20 mb-2">
+        </div> */}
+        <Badge variant="outline" className="w-fit bg-primary/10 text-primary border-primary/20 mb-2 capitalize">
           {type}
         </Badge>
         <CardTitle className="text-2xl font-bold pr-16">{role}</CardTitle>
@@ -74,12 +75,11 @@ export const InterviewCard: FC<InterviewCardProps> = ({
           ))}
         </div>
       </CardContent>
-      <CardFooter className="flex justify-between pt-2">
-        <Button variant="outline" size="sm">
-          Save for later
-        </Button>
-        <Button variant="default" size="sm">
-          {completed ? "Review Interview" : "Start Interview"}
+      <CardFooter className="pt-2">
+        <Button variant="default" size="sm" asChild>
+          <Link href={`/interview/${id}`} className="w-full">
+            {completed ? "Review Interview" : "View Interview"}
+          </Link>
         </Button>
       </CardFooter>
     </Card>

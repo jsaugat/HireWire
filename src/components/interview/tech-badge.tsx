@@ -19,7 +19,7 @@ export const TechBadge: FC<TechBadgeProps> = ({ tech }) => {
 
   return (
     <Badge variant="outline" className="flex items-center gap-1 bg-muted/30">
-      {getTechIcon()}
+      {/* {getTechIcon()} */}
       <span>{tech}</span>
     </Badge>
   )

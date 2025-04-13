@@ -10,7 +10,7 @@ export default async function Interview() {
       {user && <Agent
         userName={user.name}
         userId={user.id}
-        type="generate"
+        type="interview-generator"
       />}
     </>
   )

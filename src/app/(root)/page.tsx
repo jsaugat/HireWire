@@ -2,7 +2,8 @@
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
-import { getAuthUser, getInterviewsByUserId, getLatestInterviews } from "@/lib/actions/auth.action";
+import { getAuthUser } from "@/lib/actions/auth.action";
+import { getInterviewsByUserId, getLatestInterviews } from "@/lib/actions/general.action";
 import { InterviewCard } from "@/components/interview/interview-card";
 // import InterviewCard from "@/components/InterviewCard";
 
@@ -54,8 +55,8 @@ export default async function Home() {
             userInterviews?.map((interview: Interview) => (
               <InterviewCard
                 key={interview.id}
+                id={interview.id}
                 userId={user?.id}
-                interviewId={interview.id}
                 role={interview.role}
                 type={interview.type}
                 techStack={interview.techStack}
@@ -77,7 +78,7 @@ export default async function Home() {
               <InterviewCard
                 key={interview.id}
                 userId={user?.id}
-                interviewId={interview.id}
+                id={interview.id}
                 role={interview.role}
                 type={interview.type}
                 techStack={interview.techStack}

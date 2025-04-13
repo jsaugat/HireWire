@@ -52,7 +52,7 @@ interface AgentProps {
   userId?: string;
   interviewId?: string;
   feedbackId?: string;
-  type: "generate" | "interview";
+  type: "interview-generator" | "interview-conductor";
   questions?: string[];
 }
 

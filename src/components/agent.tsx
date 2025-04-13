@@ -6,12 +6,8 @@ import { Button } from './ui/button';
 import { cn } from '@/lib/utils';
 import { vapi } from '@/lib/vapi.sdk';
 import { useRouter } from 'next/navigation';
-
-interface AgentProps {
-  userName: string,
-  userId: string,
-  type: 'generate' | null
-}
+import { Loader } from 'lucide-react';
+import { interviewer } from '@/constants';
 
 enum CallStatus {
   INACTIVE = 'INACTIVE',
@@ -24,7 +20,7 @@ interface SavedMessage {
   content: string;
 }
 
-export default function Agent({ userName, userId, type }: AgentProps) {
+export default function Agent({ type, userName, userId, interviewId, questions }: AgentProps) {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [callStatus, setCallStatus] = useState<CallStatus>(CallStatus.INACTIVE);
   const [messages, setMessages] = useState<SavedMessage[]>([]);
@@ -66,31 +62,65 @@ export default function Agent({ userName, userId, type }: AgentProps) {
     }
   }, [])
 
+  const handleGenerateFeedback = async (messages: SavedMessage[]) => {
+    console.log("Generate feedback here.")
+    const { success, id } = {
+      success: true,
+      id: "random"
+    }
+    if (success && id) {
+      console.log("Feedback generated successfully", id);
+      router.push(`/interview/${interviewId}/feedback`);
+    } else {
+      console.log("Error generating feedback");
+      router.push('/')
+    }
+  }
+
   useEffect(() => {
     if (callStatus === CallStatus.FINISHED) {
-      router.push('/');
+      if (type == "interview-generator") {
+        router.push(`/`);
+      } else if (type == "interview-conductor") {
+        handleGenerateFeedback(messages);
+      }
     }
   }, [messages, callStatus, type, userId])
 
   const handleCall = async () => {
     console.log("Starting call...");
     setCallStatus(CallStatus.CONNECTING);
-    //? START THE WORKFLOW CALL
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const call = await vapi.start(process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID!, {
-      variableValues: {
-        username: userName,
-        userid: userId,
+
+    if (type === "interview-generator") {
+      //? START THE WORKFLOW CALL
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const call = await vapi.start(process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID!, {
+        variableValues: {
+          username: userName,
+          userid: userId,
+        }
+      })
+      // { 
+      //   "id": "bd2184a1-bdea-4d4f-9503-b09ca8b185e6", 
+      //   "orgId": "6da6841c-0fca-4604-8941-3d5d65f43a17", 
+      //   "createdAt": "2024-11-13T19:20:24.606Z", 
+      //   "updatedAt": "2024-11-13T19:20:24.606Z", 
+      //   "type": "webCall", 
+      //   ... 
+      // }
+    } else {
+      let formattedQuestions = ''
+
+      if (questions) {
+        formattedQuestions = questions.map((question: string) => `Q: ${question}`).join('\n');
       }
-    })
-    // { 
-    //   "id": "bd2184a1-bdea-4d4f-9503-b09ca8b185e6", 
-    //   "orgId": "6da6841c-0fca-4604-8941-3d5d65f43a17", 
-    //   "createdAt": "2024-11-13T19:20:24.606Z", 
-    //   "updatedAt": "2024-11-13T19:20:24.606Z", 
-    //   "type": "webCall", 
-    //   ... 
-    // }
+
+      await vapi.start(interviewer, {
+        variableValues: {
+          questions: formattedQuestions,
+        }
+      })
+    }
 
   }
   const handleDisconnect = () => {
@@ -144,7 +174,7 @@ export default function Agent({ userName, userId, type }: AgentProps) {
         </div>
       )}
 
-      <div className="w-full flex justify-center">
+      <div className="w-full flex justify-center mt-6">
         {callStatus !== "ACTIVE" ? (
           <Button
             variant={'constructive'}
@@ -156,7 +186,7 @@ export default function Agent({ userName, userId, type }: AgentProps) {
               className={cn("absolute animate-ping rounded-full opacity-75", callStatus !== 'CONNECTING' && 'hidden')}
             />
             <span>
-              {isCallInactiveOrFinished ? "Call" : "..."}
+              {isCallInactiveOrFinished ? "Call" : <Loader className='animate-spin' />}
             </span>
           </Button>
         ) : (

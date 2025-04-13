@@ -30,7 +30,7 @@ export default function RootLayout({
       >
         {children}
         <div className="h-[50vh] footer-gradient border-t p-16">
-          <div className="">hello footer</div>
+          <div className="max-w-7xl mx-auto px-16 max-sm:px-4">hello footer</div>
         </div>
         <Toaster />
       </body>

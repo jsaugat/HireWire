@@ -6,8 +6,8 @@ import { formatDate } from "@/lib/utils"
 import { TechBadge } from "./tech-badge"
 
 export interface InterviewCardProps {
+  id: string
   userId?: string
-  interviewId: string
   role: string
   type: string
   techStack: string[]

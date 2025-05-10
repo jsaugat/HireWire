@@ -18,8 +18,8 @@ export default async function Interview({ params }: RouteParams) {
         <Agent
           type="interview-conductor"
           userName={user.name}
-          interviewId={interview.id}
-          userId={interview.userId}
+          interviewId={id}
+          userId={user.id}
         />
       )}
     </div>

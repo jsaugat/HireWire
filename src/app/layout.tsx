@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Bricolage_Grotesque } from 'next/font/google'
+import { Manrope } from 'next/font/google'
 import { Toaster } from "@/components/ui/sonner"
 import "./globals.css";
+import Link from "next/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -12,6 +15,17 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+
+const bricolage_grotesque = Bricolage_Grotesque({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-bricolage_grotesque',
+})
+const manrope = Manrope({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-manrope',
+})
 
 export const metadata: Metadata = {
   title: "HIre Wire",
@@ -26,11 +40,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={"dark"}>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased pattern font-geist`}
+        className={`${geistSans.variable} ${geistMono.variable} ${bricolage_grotesque.variable + ' ' + manrope.variable} antialiased pattern footer-gradient font-manrope`}
       >
         {children}
-        <div className="h-[50vh] footer-gradient border-t p-16">
-          <div className="max-w-7xl mx-auto px-16 max-sm:px-4">hello footer</div>
+        <div className="h-10 flex items-center justify-center p-6 border-y gap-1">Developed by{" "}
+          <Link href="https://saugatjoshi.com.np" className="text-blue-400">Saugat Joshi</Link>
         </div>
         <Toaster />
       </body>

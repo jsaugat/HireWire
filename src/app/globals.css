@@ -24,6 +24,8 @@
 
     /* My styles */
   --font-geist: "Geist", sans-serif;
+  --font-manrope: "Manrope", sans-serif;
+  --font-bricolage_grotesque: "Bricolage Grotesk", sans-serif;
   --bg-pattern: url("/pattern.png");
   --text-4.5xl: 2.5rem;
 }
@@ -263,7 +265,7 @@
   }
 
   .root-layout {
-    @apply flex mx-auto max-w-7xl flex-col gap-12 px-16 max-sm:px-4 max-sm:my-4 my-6;
+    @apply flex mx-auto max-w-7xl flex-col gap-6 md:gap-12 px-16 max-sm:px-4 max-sm:my-4 my-6 sm:mb-12;
   }
 
   .card-cta {
@@ -292,6 +294,233 @@
     .badge-text {
       @apply text-sm font-semibold capitalize;
     }
+  }
+
+  /* Feedback */
+  .feedback-container {
+    @apply container max-w-5xl mx-auto;
+  }
+
+  /* Header section */
+  .feedback-header {
+    @apply bg-gradient-to-r from-zinc-900 to-zinc-950 text-white p-6 sm:p-8;
+  }
+
+  .feedback-header-content {
+    @apply flex flex-col md:flex-row justify-between items-start md:items-center gap-4;
+  }
+
+  .feedback-title-wrapper {
+    @apply flex flex-col;
+  }
+
+  .feedback-title {
+    @apply text-3xl font-bold tracking-tight;
+  }
+
+  .feedback-subtitle {
+    @apply text-zinc-300 mt-2;
+  }
+
+  .feedback-date {
+    @apply flex items-center gap-2 bg-black/20 rounded-full px-4 py-2;
+  }
+
+  .feedback-date-icon {
+    @apply size-4 text-zinc-300;
+  }
+
+  .feedback-date-text {
+    @apply text-zinc-200 text-sm;
+  }
+
+  /* Score section */
+  .feedback-score {
+    @apply mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-6;
+  }
+
+  .feedback-score-overview {
+    @apply flex flex-col;
+  }
+
+  .feedback-score-label {
+    @apply text-zinc-300 text-sm font-medium;
+  }
+
+  .feedback-score-value {
+    @apply flex items-baseline gap-2;
+  }
+
+  .feedback-score-number {
+    @apply text-4xl font-bold;
+  }
+
+  .feedback-score-max {
+    @apply text-zinc-300 text-lg;
+  }
+
+  .feedback-score-progress {
+    @apply w-full sm:w-2/3;
+  }
+
+  .feedback-progress-bar {
+    @apply h-3 w-full rounded-full;
+  }
+
+  /* Content section */
+  .feedback-content {
+    @apply p-6 sm:p-8 space-y-10;
+  }
+
+  /* Assessment */
+  .feedback-assessment {
+    @apply bg-zinc-50 dark:bg-zinc-900/50 p-6 rounded-xl border border-zinc-200 dark:border-zinc-800;
+  }
+
+  .feedback-assessment-text {
+    @apply text-lg italic text-zinc-700 dark:text-zinc-300;
+  }
+
+  /* Verdict */
+  .feedback-verdict {
+    @apply flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between sm:justify-normal;
+  }
+
+  .feedback-verdict-title {
+    @apply text-2xl font-bold;
+  }
+
+  .feedback-verdict-badge {
+    @apply text-base py-1.5 px-4 rounded-full bg-destructive/10 text-destructive border-destructive/20 font-medium;
+  }
+
+  /* Categories */
+  .feedback-categories {
+    @apply flex flex-col;
+  }
+
+  .feedback-categories-title {
+    @apply text-2xl font-bold mb-6;
+  }
+
+  .feedback-categories-grid {
+    @apply grid gap-6;
+  }
+
+  .feedback-category {
+    @apply bg-zinc-50 dark:bg-zinc-900/30 rounded-xl p-6 transition-all hover:shadow-md;
+  }
+
+  .feedback-category-header {
+    @apply flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3;
+  }
+
+  .feedback-category-title {
+    @apply text-xl font-semibold flex items-center gap-2;
+  }
+
+  .feedback-category-number {
+    @apply flex items-center justify-center size-7 rounded-full bg-zinc-200 dark:bg-zinc-800 text-sm font-bold;
+  }
+
+  .feedback-category-score {
+    @apply flex items-center gap-3;
+  }
+
+  .feedback-category-progress {
+    @apply h-2 w-24;
+  }
+
+  .feedback-category-badge {
+    @apply font-bold;
+  }
+
+  .feedback-category-comment {
+    @apply text-zinc-600 dark:text-zinc-400;
+  }
+
+  /* Evaluation */
+  .feedback-evaluation {
+    @apply grid grid-cols-1 md:grid-cols-2 gap-8;
+  }
+
+  /* Strengths */
+  .feedback-strengths {
+    @apply bg-emerald-50 dark:bg-emerald-950/20 p-6 rounded-xl border border-emerald-100 dark:border-emerald-900/30;
+  }
+
+  .feedback-strengths-title {
+    @apply text-xl font-bold flex items-center gap-2 text-emerald-700 dark:text-emerald-400 mb-4;
+  }
+
+  .feedback-strengths-icon {
+    @apply size-5;
+  }
+
+  .feedback-strengths-list {
+    @apply space-y-3;
+  }
+
+  .feedback-strength-item {
+    @apply flex items-start gap-2 text-zinc-700 dark:text-zinc-300;
+  }
+
+  .feedback-strength-number {
+    @apply flex-shrink-0 size-5 rounded-full bg-emerald-200 dark:bg-emerald-800 flex items-center justify-center text-xs font-bold mt-0.5;
+  }
+
+  .feedback-strength-text {
+    @apply flex-grow;
+  }
+
+  /* Improvements */
+  .feedback-improvements {
+    @apply bg-amber-50 dark:bg-amber-950/20 p-6 rounded-xl border border-amber-100 dark:border-amber-900/30;
+  }
+
+  .feedback-improvements-title {
+    @apply text-xl font-bold flex items-center gap-2 text-amber-700 dark:text-amber-400 mb-4;
+  }
+
+  .feedback-improvements-icon {
+    @apply size-5;
+  }
+
+  .feedback-improvements-list {
+    @apply space-y-3;
+  }
+
+  .feedback-improvement-item {
+    @apply flex items-start gap-2 text-zinc-700 dark:text-zinc-300;
+  }
+
+  .feedback-improvement-number {
+    @apply flex-shrink-0 size-5 rounded-full bg-amber-200 dark:bg-amber-800 flex items-center justify-center text-xs font-bold mt-0.5;
+  }
+
+  .feedback-improvement-text {
+    @apply flex-grow;
+  }
+
+  /* Footer */
+  .feedback-footer {
+    @apply border-t border-border p-8 flex flex-col sm:flex-row justify-between gap-4;
+  }
+
+  .feedback-back-button {
+    @apply flex-1 gap-2;
+  }
+
+  .feedback-back-icon {
+    @apply size-4;
+  }
+
+  .feedback-retake-button {
+    @apply flex-1 gap-2;
+  }
+
+  .feedback-retake-icon {
+    @apply size-4;
   }
 }
 

@@ -66,7 +66,11 @@ export default function Agent({ type, userName, userId, interviewId, questions }
 
   // Generate feedback
   const handleGenerateFeedback = async (messages: SavedMessage[]) => {
-    console.log("Generate feedback here.")
+    console.log("debug-agent", {
+      interviewId,
+      userId,
+      messages
+    })
 
     // createFeedback response
     const feedbackResponse = await createFeedback({

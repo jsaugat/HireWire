@@ -25,7 +25,7 @@ export default async function Home() {
   return (
     <>
       <section className="card-cta justify-center min-h-[80svh]">
-        <div className="flex flex-col gap-6 lg:text-center">
+        <div className="flex flex-col gap-6 lg:text-center font-bricolage_grotesque">
           <h2 className="text-4.5xl md:text-6xl lg:text-7xl">AI-Powered Mock Interviews<br />
             <span className="inline-block text-zinc-400">That Talk Back</span>
           </h2>

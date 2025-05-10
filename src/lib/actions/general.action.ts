@@ -52,6 +52,10 @@ export async function getInterviewsByUserId(userId: string): Promise<Interview[]
 }
 
 export async function createFeedback({ interviewId, userId, transcript }: CreateFeedbackParams) {
+  if (!interviewId || !userId || !transcript) {
+    throw new Error('interviewId, userId, and transcript are required');
+  }
+
   try {
     const formattedTranscript = transcript
       .map((sentence: { role: string, content: string }) => (
@@ -100,6 +104,8 @@ export async function createFeedback({ interviewId, userId, transcript }: Create
         createdAt: new Date().toISOString(),
       });
 
+    console.log("Feed created for this interview: ", feedback);
+
     return {
       success: true,
       feedbackId: feedback.id
@@ -127,11 +133,15 @@ export async function getFeedbackByInterviewId(params: GetFeedbackByInterviewIdP
       .limit(1)
       .get();
 
+    console.log("feedbackSnapshot", JSON.stringify(feedbackSnapshot));
+
     if (feedbackSnapshot.empty) {
+      console.error("No feedback found for this interview!");
       return null;
     }
 
     const feedbackDoc = feedbackSnapshot.docs[0];
+    console.log("debug-feedbackDoc", feedbackDoc);
     return {
       id: feedbackDoc.id,
       ...feedbackDoc.data(),

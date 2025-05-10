@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client"
 
 import Image from 'next/image'
@@ -6,8 +7,9 @@ import { Button } from './ui/button';
 import { cn } from '@/lib/utils';
 import { vapi } from '@/lib/vapi.sdk';
 import { useRouter } from 'next/navigation';
-import { Loader } from 'lucide-react';
+import { Loader, PhoneCall } from 'lucide-react';
 import { interviewer } from '@/constants';
+import { createFeedback } from '@/lib/actions/general.action';
 
 enum CallStatus {
   INACTIVE = 'INACTIVE',
@@ -62,17 +64,23 @@ export default function Agent({ type, userName, userId, interviewId, questions }
     }
   }, [])
 
+  // Generate feedback
   const handleGenerateFeedback = async (messages: SavedMessage[]) => {
     console.log("Generate feedback here.")
-    const { success, id } = {
-      success: true,
-      id: "random"
-    }
-    if (success && id) {
-      console.log("Feedback generated successfully", id);
+
+    // createFeedback response
+    const feedbackResponse = await createFeedback({
+      interviewId: interviewId!,
+      userId: userId!,
+      transcript: messages
+    })
+
+    //? If: feedback is generated successfully, redirect to feedback page
+    //? Else: redirect to home page
+    if (feedbackResponse?.success && feedbackResponse?.feedbackId) {
       router.push(`/interview/${interviewId}/feedback`);
     } else {
-      console.log("Error generating feedback");
+      console.error("Error generating feedback");
       router.push('/')
     }
   }
@@ -185,7 +193,8 @@ export default function Agent({ type, userName, userId, interviewId, questions }
             <span
               className={cn("absolute animate-ping rounded-full opacity-75", callStatus !== 'CONNECTING' && 'hidden')}
             />
-            <span>
+            <span className='flex items-center gap-2'>
+              {isCallInactiveOrFinished && <PhoneCall />}
               {isCallInactiveOrFinished ? "Call" : <Loader className='animate-spin' />}
             </span>
           </Button>
